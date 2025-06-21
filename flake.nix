@@ -1,4 +1,6 @@
 {
+  description = "Kenneth Hoff's nvf configuration";
+
   inputs = {
     nvf.url = "github:notashelf/nvf";
     flake-utils.url = "github:numtide/flake-utils";
