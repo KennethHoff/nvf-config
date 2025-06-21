@@ -9,47 +9,13 @@
     {
       packages.x86_64-linux = {
         default =
-          (inputs.nvf.lib.neovimConfiguration {
+          let
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          in
+          (inputs.nvf.lib.neovimConfiguration {
+            inherit pkgs;
             modules = [
-              {
-                config.vim = {
-                  theme = {
-                    enable = true;
-                    name = "catppuccin";
-                    style = "mocha";
-                  };
-
-                  fzf-lua = {
-                    enable = true;
-                  };
-                  utility = {
-                    yazi-nvim = {
-                      enable = true;
-                      mappings = {
-                        openYazi = "<leader>e";
-                      };
-                      setupOpts = {
-                        open_for_directories = true;
-                      };
-                    };
-                  };
-
-                  mini = {
-                    surround.enable = true;
-                    splitjoin.enable = true;
-                    indentscope.enable = true;
-                  };
-
-                  languages = {
-                    nix = {
-                      enable = true;
-                      lsp.server = "nixd";
-                      treesitter.enable = true;
-                    };
-                  };
-                };
-              }
+              (import ./nvf.nix { })
             ];
           }).neovim;
       };
