@@ -2,6 +2,7 @@
   description = "Kenneth Hoff's nvf configuration";
 
   inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvf.url = "github:notashelf/nvf";
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -10,38 +11,52 @@
     {
       flake-utils,
       nvf,
+      nixpkgs,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
+    let
+      # Define the module outside eachDefaultSystem so it's available at the top level
+      nvf-config-module =
+        {
+          pkgs,
+          lib,
+          config,
+          ...
+        }:
+        {
+          options.programs.nvf-config = {
+            enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+          };
+
+          config = lib.mkIf config.programs.nvf-config.enable {
+            environment.systemPackages = [
+              (nvf.lib.neovimConfiguration {
+                inherit pkgs;
+                modules = [
+                  (import ./nvf.nix { })
+                ];
+              }).neovim
+            ];
+          };
+        };
+    in
+    (flake-utils.lib.eachDefaultSystem (
       system:
       let
-        configPath = "programs.nvf-config";
+        pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        # Add a NixOS module that can be imported directly
-        nixosModules.default =
-          {
-            pkgs,
-            lib,
-            config,
-            ...
-          }:
-          {
-            options.${configPath} = {
-              enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
-            };
-
-            config = lib.mkIf config.${configPath}.enable {
-              environment.systemPackages = [
-                (nvf.lib.neovimConfiguration {
-                  inherit pkgs;
-                  modules = [
-                    (import ./nvf.nix { })
-                  ];
-                }).neovim
-              ];
-            };
-          };
+        packages.default =
+          (nvf.lib.neovimConfiguration {
+            inherit pkgs;
+            modules = [
+              (import ./nvf.nix { })
+            ];
+          }).neovim;
       }
-    );
+    ))
+    // {
+      # Expose the module at the top level with the name your main flake is looking for
+      nixosModules.nvf-config = nvf-config-module;
+    };
 }
