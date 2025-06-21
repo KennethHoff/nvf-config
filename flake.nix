@@ -16,6 +16,7 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        configPath = "programs.nvf-config";
       in
       {
         # Add a NixOS module that can be imported directly
@@ -27,11 +28,11 @@
             ...
           }:
           {
-            options.programs.nvf-custom = {
+            options.${configPath} = {
               enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
             };
 
-            config = lib.mkIf config.programs.nvf-custom.enable {
+            config = lib.mkIf config.${configPath}.enable {
               environment.systemPackages = [
                 (nvf.lib.neovimConfiguration {
                   inherit pkgs;
