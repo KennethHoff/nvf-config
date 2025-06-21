@@ -5,22 +5,24 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvf.url = "github:notashelf/nvf";
     flake-utils.url = "github:numtide/flake-utils";
-    home-manager.url = "github:nix-community/home-manager"; # Added home-manager input
   };
 
   outputs = {
     flake-utils,
     nvf,
     nixpkgs,
-    home-manager,
     ...
   }: let
-    mkConfig = pkgs:
+    mkConfig = {
+      pkgs,
+      screenshotDirectory,
+    }:
       (nvf.lib.neovimConfiguration {
         inherit pkgs;
         modules = [
           (import ./nvf.nix {
             inherit pkgs;
+            screenshotDirectory = screenshotDirectory;
           })
         ];
       }).neovim;
@@ -33,11 +35,19 @@
     }: {
       options.programs.nvf-config = {
         enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+        screenshotDirectory = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = "Where to output screenshots";
+          default = null;
+        };
       };
 
       config = lib.mkIf config.programs.nvf-config.enable {
         environment.systemPackages = [
-          (mkConfig pkgs)
+          (mkConfig {
+            inherit pkgs;
+            inherit (config.programs.nvf-config) screenshotDirectory;
+          })
         ];
       };
     };
@@ -51,11 +61,19 @@
     }: {
       options.programs.nvf-config = {
         enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+        screenshotDirectory = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = "Where to output screenshots";
+          default = null;
+        };
       };
 
       config = lib.mkIf config.programs.nvf-config.enable {
         home.packages = [
-          (mkConfig pkgs)
+          (mkConfig {
+            inherit pkgs;
+            inherit (config.programs.nvf-config) screenshotDirectory;
+          })
         ];
       };
     };
@@ -64,7 +82,10 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
       in {
-        packages.default = mkConfig pkgs;
+        packages.default = mkConfig {
+          inherit pkgs;
+          screenshotDirectory = null;
+        };
       }
     ))
     // {

@@ -1,6 +1,58 @@
-{ }:
 {
+  pkgs,
+  screenshotDirectory ? null,
+  ...
+}: let
+  fzfLuaKeymap = [
+    {
+      key = "<leader>ff"; # Fzf Files
+      mode = "n";
+      action = "<cmd>FzfLua files<CR>";
+      desc = "Pick - File";
+    }
+    {
+      key = "<leader>fg"; # Fzf Grep
+      mode = "n";
+      action = "<cmd>FzfLua grep<CR>";
+      desc = "Pick - Live Grep";
+    }
+    {
+      key = "<leader>f*"; # Fzf Grep w/ current WORD
+      mode = "n";
+      action = "<cmd>FzfLua grep_cWORD<CR>";
+      desc = "Pick - Grep word under cursor";
+    }
+    {
+      key = "<leader>f*"; # Fzf Grep w/ current selection
+      mode = "v";
+      action = "<cmd>FzfLua grep_visual<CR>";
+      desc = "Pick - Grep current selection";
+    }
+    {
+      key = "<leader>fr"; # Fzf resume previous search
+      mode = "n";
+      action = "<cmd>FzfLua resume<CR>";
+      desc = "Pick - Resume";
+    }
+  ];
+
+  codesnapKeymap = [
+    {
+      key = "<leader>cc";
+      mode = "v";
+      action = "<Esc><cmd>CodeSnap<cr>";
+      desc = "Copy a code snapshot to clipboard";
+    }
+    {
+      key = "<leader>cs";
+      mode = "v";
+      action = "<Esc><cmd>CodeSnapSave<cr>";
+      desc = "Save a code snapshot as an image";
+    }
+  ];
+in {
   config.vim = {
+    enableLuaLoader = true;
     theme = {
       enable = true;
       name = "catppuccin";
@@ -20,6 +72,7 @@
           open_for_directories = true;
         };
       };
+      smart-splits.enable = true;
     };
 
     mini = {
@@ -33,6 +86,8 @@
         enable = true;
       };
     };
+
+    keymaps = fzfLuaKeymap ++ codesnapKeymap;
 
     binds = {
       whichKey = {
@@ -77,6 +132,26 @@
       csharp = {
         enable = true;
         lsp.enable = true;
+      };
+    };
+
+    extraPlugins = {
+      "codesnap.nvim" = {
+        package = pkgs.vimPlugins.codesnap-nvim;
+        setup = ''
+          require("codesnap").setup({
+            ${
+            if screenshotDirectory != null
+            then ''save_path="${screenshotDirectory}",''
+            else ""
+          }
+            has_breadcrumbs = true;
+            bg_theme = "bamboo";
+            show_workspace = true;
+            has_line_number = true;
+            bg_padding = 0;
+          })
+        '';
       };
     };
   };
