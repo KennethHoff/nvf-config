@@ -40,22 +40,42 @@
       };
     };
 
+    visuals = {
+      fidget-nvim = {
+        enable = true;
+      };
+    };
+
+    debugger.nvim-dap = {
+      enable = true;
+      ui = {
+        enable = true;
+      };
+    };
+
     lsp = {
       enable = true;
+      formatOnSave = true;
+      inlayHints.enable = true;
       trouble = {
         enable = true;
       };
     };
 
     languages = {
-      nix = {
+      enableFormat = true;
+      enableTreesitter = true;
+      enableExtraDiagnostics = true;
+      enableDAP = true;
+
+      tailwind = {
         enable = true;
-        lsp.server = "nixd";
-        treesitter.enable = true;
+        lsp.enable = true;
       };
+      ts.enable = true;
+      nix.enable = true;
       csharp = {
         enable = true;
-        treesitter.enable = true;
         lsp.enable = true;
       };
     };

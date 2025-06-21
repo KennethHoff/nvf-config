@@ -4,20 +4,17 @@
     nvf.url = "github:notashelf/nvf";
   };
 
-  outputs =
-    { nixpkgs, ... }@inputs:
-    {
-      packages.x86_64-linux = {
-        default =
-          let
-            pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          in
-          (inputs.nvf.lib.neovimConfiguration {
-            inherit pkgs;
-            modules = [
-              (import ./nvf.nix { })
-            ];
-          }).neovim;
-      };
+  outputs = {nixpkgs, ...} @ inputs: {
+    packages.x86_64-linux = {
+      default = let
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      in
+        (inputs.nvf.lib.neovimConfiguration {
+          inherit pkgs;
+          modules = [
+            (import ./nvf.nix {})
+          ];
+        }).neovim;
     };
+  };
 }
