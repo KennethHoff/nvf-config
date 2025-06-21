@@ -1,25 +1,21 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nvf.url = "github:notashelf/nvf";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
     {
-      nixpkgs,
+      self,
       flake-utils,
       nvf,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        # Add a NixOS module that can be imported directly
-        nixosModules.default =
+    flake-utils.lib.eachDefaultSystem (system: {
+      # Add a NixOS module that can be imported directly
+      nixosModules = {
+        default = self.nixosModules.nvf-config;
+        nvf-config =
           {
             pkgs,
             lib,
@@ -42,9 +38,6 @@
               ];
             };
           };
-
-        # Add a standalone module that can be used with nvf.lib.neovimConfiguration
-        nvfModule = ./nvf.nix;
-      }
-    );
+      };
+    });
 }
