@@ -6,22 +6,45 @@
   };
 
   outputs =
-    { nixpkgs, flake-utils, ... }@inputs:
+    {
+      nixpkgs,
+      flake-utils,
+      nvf,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages = {
-          default =
-            (inputs.nvf.lib.neovimConfiguration {
-              inherit pkgs;
-              modules = [
-                (import ./nvf.nix { })
+        # Add a NixOS module that can be imported directly
+        nixosModules.default =
+          {
+            pkgs,
+            lib,
+            config,
+            ...
+          }:
+          {
+            options.programs.nvf-custom = {
+              enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+            };
+
+            config = lib.mkIf config.programs.nvf-custom.enable {
+              environment.systemPackages = [
+                (nvf.lib.neovimConfiguration {
+                  inherit pkgs;
+                  modules = [
+                    (import ./nvf.nix { })
+                  ];
+                }).neovim
               ];
-            }).neovim;
-        };
+            };
+          };
+
+        # Add a standalone module that can be used with nvf.lib.neovimConfiguration
+        nvfModule = ./nvf.nix;
       }
     );
 }
