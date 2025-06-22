@@ -84,6 +84,7 @@ in {
     autocomplete = {
       blink-cmp = {
         enable = true;
+        setupOpts.keymap.preset = "default";
       };
     };
 
