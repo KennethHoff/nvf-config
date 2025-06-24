@@ -135,6 +135,11 @@ in {
         enable = pkgs.stdenv.isLinux;
         lsp.enable = true;
       };
+
+      hcl = {
+        enable = true;
+        lsp.enable = true;
+      };
     };
 
     extraPlugins = {
