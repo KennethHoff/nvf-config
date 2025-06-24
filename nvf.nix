@@ -131,7 +131,8 @@ in {
       ts.enable = true;
       nix.enable = true;
       csharp = {
-        enable = true;
+        # Disabled on Mac: https://github.com/razzmatazz/csharp-language-server/issues/211
+        enable = pkgs.stdenv.isLinux;
         lsp.enable = true;
       };
     };
