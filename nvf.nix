@@ -124,17 +124,11 @@ in {
       enableExtraDiagnostics = true;
       enableDAP = true;
 
-      tailwind = {
-        enable = true;
-        lsp.enable = true;
-      };
+      tailwind.enable = true;
       ts.enable = true;
       nix.enable = true;
-      csharp = {
-        # Disabled on Mac: https://github.com/razzmatazz/csharp-language-server/issues/211
-        enable = pkgs.stdenv.isLinux;
-        lsp.enable = true;
-      };
+      # Disabled on Mac: https://github.com/razzmatazz/csharp-language-server/issues/211
+      csharp.enable = pkgs.stdenv.isLinux;
     };
 
     extraPlugins = {
