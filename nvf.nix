@@ -17,9 +17,9 @@
       desc = "Pick - Live Grep";
     }
     {
-      key = "<leader>f*"; # Fzf Grep w/ current WORD
+      key = "<leader>f*"; # Fzf Grep w/ current word
       mode = "n";
-      action = "<cmd>FzfLua grep_cWORD<CR>";
+      action = "<cmd>FzfLua grep_cword<CR>";
       desc = "Pick - Grep word under cursor";
     }
     {
