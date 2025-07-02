@@ -129,6 +129,7 @@ in {
       nix.enable = true;
       # Disabled on Mac: https://github.com/razzmatazz/csharp-language-server/issues/211
       csharp.enable = pkgs.stdenv.isLinux;
+      yaml.enable = true;
     };
 
     extraPlugins = {
