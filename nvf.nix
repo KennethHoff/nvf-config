@@ -88,6 +88,18 @@ in {
       };
     };
 
+    assistant = {
+      codecompanion-nvim = {
+        enable = true;
+        setupOpts.strategies = {
+          chat.adapter = "copilot";
+          inline.adapter = "copilot";
+        };
+      };
+      # Used as source for auth for `CodeCompanion`.
+      copilot.enable = true;
+    };
+
     keymaps = fzfLuaKeymap ++ codesnapKeymap;
 
     binds = {
