@@ -100,6 +100,10 @@ in {
       copilot.enable = true;
     };
 
+    git = {
+      enable = true;
+    };
+
     keymaps = fzfLuaKeymap ++ codesnapKeymap;
 
     binds = {
