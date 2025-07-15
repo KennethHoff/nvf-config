@@ -101,7 +101,9 @@ in {
     };
 
     git = {
-      enable = true;
+      git-conflict.enable = true;
+      gitsigns.enable = true;
+      gitlinker-nvim.enable = true;
     };
 
     keymaps = fzfLuaKeymap ++ codesnapKeymap;
