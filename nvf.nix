@@ -145,8 +145,16 @@ in {
       tailwind.enable = true;
       ts.enable = true;
       nix.enable = true;
-      # Disabled on Mac: https://github.com/razzmatazz/csharp-language-server/issues/211
-      csharp.enable = pkgs.stdenv.isLinux;
+      csharp = {
+        enable = true;
+        lsp.package = pkgs.csharp-ls.overrideAttrs (old: {
+          meta =
+            old.meta
+            // {
+              badPlatforms = [];
+            };
+        });
+      };
       yaml.enable = true;
     };
 
