@@ -131,9 +131,8 @@ in {
       enable = true;
       formatOnSave = true;
       inlayHints.enable = true;
-      trouble = {
-        enable = true;
-      };
+      trouble.enable = true;
+      otter-nvim.enable = true;
     };
 
     languages = {
@@ -145,6 +144,7 @@ in {
       tailwind.enable = true;
       ts.enable = true;
       nix.enable = true;
+      ruby.enable = true;
       csharp = {
         enable = true;
         lsp.package = pkgs.csharp-ls.overrideAttrs (old: {
