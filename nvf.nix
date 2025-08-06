@@ -142,7 +142,12 @@ in {
       enableDAP = true;
 
       tailwind.enable = true;
-      ts.enable = true;
+      ts = {
+        enable = true;
+        extensions = {
+          ts-error-translator.enable = true;
+        };
+      };
       nix.enable = true;
       ruby.enable = true;
       csharp = {
