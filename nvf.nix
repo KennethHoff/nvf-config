@@ -3,39 +3,26 @@
   screenshotDirectory ? null,
   ...
 }: let
-  fzfLuaKeymap = [
+  miniPickKeymap = [
     {
-      key = "<leader>ff"; # Fzf Files
+      key = "<leader>ff";
       mode = "n";
-      action = "<cmd>FzfLua files<CR>";
-      desc = "Pick - File";
+      action = "<cmd>Pick files<CR>";
+      desc = "Pick - Files";
     }
     {
-      key = "<leader>fg"; # Fzf Grep
+      key = "<leader>fr";
       mode = "n";
-      action = "<cmd>FzfLua grep<CR>";
-      desc = "Pick - Live Grep";
-    }
-    {
-      key = "<leader>f*"; # Fzf Grep w/ current word
-      mode = "n";
-      action = "<cmd>FzfLua grep_cword<CR>";
-      desc = "Pick - Grep word under cursor";
-    }
-    {
-      key = "<leader>f*"; # Fzf Grep w/ current selection
-      mode = "v";
-      action = "<cmd>FzfLua grep_visual<CR>";
-      desc = "Pick - Grep current selection";
-    }
-    {
-      key = "<leader>fr"; # Fzf resume previous search
-      mode = "n";
-      action = "<cmd>FzfLua resume<CR>";
+      action = "<cmd>Pick resume<CR>";
       desc = "Pick - Resume";
     }
+    {
+      key = "<leader>fh";
+      mode = "n";
+      action = "<cmd>Pick history<CR>";
+      desc = "Pick - History";
+    }
   ];
-
   codesnapKeymap = [
     {
       key = "<leader>cc";
@@ -79,6 +66,9 @@ in {
       surround.enable = true;
       splitjoin.enable = true;
       indentscope.enable = true;
+      pick.enable = true;
+      extra.enable = true;
+      icons.enable = true;
     };
 
     autocomplete = {
@@ -106,7 +96,8 @@ in {
       gitlinker-nvim.enable = true;
     };
 
-    keymaps = fzfLuaKeymap ++ codesnapKeymap;
+    # keymaps = fzfLuaKeymap ++ codesnapKeymap;
+    keymaps = miniPickKeymap ++ codesnapKeymap;
 
     binds = {
       whichKey = {
