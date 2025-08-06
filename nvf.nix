@@ -79,6 +79,7 @@ in {
       surround.enable = true;
       splitjoin.enable = true;
       indentscope.enable = true;
+      move.enable = true;
     };
 
     autocomplete = {
