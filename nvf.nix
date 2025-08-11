@@ -164,23 +164,17 @@ in {
       yaml.enable = true;
     };
 
-    extraPlugins = {
+    lazy.plugins = {
       "codesnap.nvim" = {
         package = pkgs.vimPlugins.codesnap-nvim;
-        setup = ''
-          require("codesnap").setup({
-            ${
-            if screenshotDirectory != null
-            then ''save_path="${screenshotDirectory}",''
-            else ""
-          }
-            has_breadcrumbs = true;
-            bg_theme = "bamboo";
-            show_workspace = true;
-            has_line_number = true;
-            bg_padding = 0;
-          })
-        '';
+        setupOpts = {
+          save_path = pkgs.lib.mkIf screenshotDirectory screenshotDirectory;
+          has_breadcrumbs = true;
+          bg_theme = "bamboo";
+          show_workspace = true;
+          has_line_number = true;
+          bg_padding = 0;
+        };
       };
     };
   };
