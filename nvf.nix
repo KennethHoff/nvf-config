@@ -44,10 +44,22 @@
       desc = "Copy a code snapshot to clipboard";
     }
     {
+      key = "<leader>cC";
+      mode = "v";
+      action = "<Esc><cmd>CodeSnapHighlight<cr>";
+      desc = "Copy a highlighted code snapshot to clipboard";
+    }
+    {
       key = "<leader>cs";
       mode = "v";
       action = "<Esc><cmd>CodeSnapSave<cr>";
       desc = "Save a code snapshot as an image";
+    }
+    {
+      key = "<leader>cS";
+      mode = "v";
+      action = "<Esc><cmd>CodeSnapSaveHighlight<cr>";
+      desc = "Save a highlighted code snapshot as an image";
     }
   ];
 in {
