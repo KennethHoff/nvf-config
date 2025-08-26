@@ -154,6 +154,7 @@ in {
       enableExtraDiagnostics = true;
       enableDAP = true;
 
+      svelte.enable = true;
       tailwind.enable = true;
       ts = {
         enable = true;
