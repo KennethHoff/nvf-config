@@ -64,6 +64,12 @@
       action = "<cmd>lua Snacks.picker('keymaps')<CR>";
       desc = "Pick - Keymaps";
     }
+    {
+      key = "<leader>fp"; # Pickers
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('pickers')<CR>";
+      desc = "Pick - Keymaps";
+    }
   ];
 
   codesnapKeymap = [
