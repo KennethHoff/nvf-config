@@ -3,36 +3,66 @@
   screenshotDirectory ? null,
   ...
 }: let
-  fzfLuaKeymap = [
+  snacksPickerKeymap = [
     {
-      key = "<leader>ff"; # Fzf Files
+      key = "<leader>ff"; # Files
       mode = "n";
-      action = "<cmd>FzfLua files<CR>";
+      action = "<cmd>lua Snacks.picker('files')<CR>";
       desc = "Pick - File";
     }
     {
-      key = "<leader>fg"; # Fzf Grep
+      key = "<leader>fg"; # Live Grep
       mode = "n";
-      action = "<cmd>FzfLua grep<CR>";
+      action = "<cmd>lua Snacks.picker('live_grep')<CR>";
       desc = "Pick - Live Grep";
     }
     {
-      key = "<leader>f*"; # Fzf Grep w/ current word
+      key = "<leader>f*"; # Grep word under cursor
       mode = "n";
-      action = "<cmd>FzfLua grep_cword<CR>";
+      action = "<cmd>lua Snacks.picker('grep_word')<CR>";
       desc = "Pick - Grep word under cursor";
     }
     {
-      key = "<leader>f*"; # Fzf Grep w/ current selection
+      key = "<leader>f*"; # Grep current selection (visual)
       mode = "v";
-      action = "<cmd>FzfLua grep_visual<CR>";
+      action = "<cmd>lua Snacks.picker('grep_word')<CR>";
       desc = "Pick - Grep current selection";
     }
     {
-      key = "<leader>fr"; # Fzf resume previous search
+      key = "<leader>fr"; # Resume previous search
       mode = "n";
-      action = "<cmd>FzfLua resume<CR>";
-      desc = "Pick - Resume";
+      action = "<cmd>lua Snacks.picker('resume')<CR>";
+      desc = "Pick - Resume previous search";
+    }
+    {
+      key = "<leader>fb"; # Buffers
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('buffers')<CR>";
+      desc = "Pick - Buffer";
+    }
+    {
+      key = "<leader>fo"; # Recent files (oldfiles)
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('oldfiles')<CR>";
+      desc = "Pick - Recent Files";
+    }
+    {
+      key = "<leader>fh"; # Help tags
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('help_tags')<CR>";
+      desc = "Pick - Help Tags";
+    }
+    {
+      key = "<leader>fc"; # Commands
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('commands')<CR>";
+      desc = "Pick - Commands";
+    }
+    {
+      key = "<leader>fk"; # Keymaps
+      mode = "n";
+      action = "<cmd>lua Snacks.picker('keymaps')<CR>";
+      desc = "Pick - Keymaps";
     }
   ];
 
@@ -65,9 +95,6 @@
 in {
   config.vim = {
     enableLuaLoader = true;
-    fzf-lua = {
-      enable = true;
-    };
     utility = {
       yazi-nvim = {
         enable = true;
@@ -79,6 +106,7 @@ in {
         };
       };
       smart-splits.enable = true;
+      snacks-nvim.enable = true;
     };
 
     mini = {
@@ -113,7 +141,7 @@ in {
       gitlinker-nvim.enable = true;
     };
 
-    keymaps = fzfLuaKeymap ++ codesnapKeymap;
+    keymaps = snacksPickerKeymap ++ codesnapKeymap;
 
     binds = {
       whichKey = {
