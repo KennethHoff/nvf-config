@@ -7,13 +7,13 @@
     {
       key = "<leader>ff"; # Files
       mode = "n";
-      action = "<cmd>lua Snacks.picker('files')<CR>";
+      action = "<cmd>lua Snacks.picker('git_files')<CR>";
       desc = "Pick - File";
     }
     {
       key = "<leader>fg"; # Live Grep
       mode = "n";
-      action = "<cmd>lua Snacks.picker('live_grep')<CR>";
+      action = "<cmd>lua Snacks.picker('git_grep')<CR>";
       desc = "Pick - Live Grep";
     }
     {
