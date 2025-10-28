@@ -101,6 +101,11 @@
 in {
   config.vim = {
     enableLuaLoader = true;
+    theme = {
+      enable = true;
+      name = "catppuccin";
+      style = "mocha";
+    };
     utility = {
       yazi-nvim = {
         enable = true;
