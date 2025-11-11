@@ -208,6 +208,7 @@ in {
         });
       };
       yaml.enable = true;
+      elixir.enable = true;
     };
 
     lazy.plugins = {
