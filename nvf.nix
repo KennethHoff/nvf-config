@@ -208,7 +208,10 @@ in {
         });
       };
       yaml.enable = true;
-      elixir.enable = true;
+      elixir = {
+        enable = true;
+        elixir-tools.enable = true;
+      };
     };
 
     lazy.plugins = {
