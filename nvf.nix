@@ -127,23 +127,9 @@ in {
       move.enable = true;
     };
 
-    autocomplete = {
-      blink-cmp = {
-        enable = true;
-        setupOpts.keymap.preset = "default";
-      };
-    };
-
-    assistant = {
-      codecompanion-nvim = {
-        enable = true;
-        setupOpts.strategies = {
-          chat.adapter = "copilot";
-          inline.adapter = "copilot";
-        };
-      };
-      # Used as source for auth for `CodeCompanion`.
-      copilot.enable = true;
+    autocomplete.blink-cmp = {
+      enable = true;
+      setupOpts.keymap.preset = "default";
     };
 
     git = {
@@ -154,17 +140,9 @@ in {
 
     keymaps = snacksPickerKeymap ++ codesnapKeymap;
 
-    binds = {
-      whichKey = {
-        enable = true;
-      };
-    };
+    binds.whichKey.enable = true;
 
-    visuals = {
-      fidget-nvim = {
-        enable = true;
-      };
-    };
+    visuals.fidget-nvim.enable = true;
 
     debugger.nvim-dap = {
       enable = true;
@@ -187,31 +165,14 @@ in {
       enableExtraDiagnostics = true;
       enableDAP = true;
 
-      svelte.enable = true;
-      tailwind.enable = true;
-      ts = {
-        enable = true;
-        extensions = {
-          ts-error-translator.enable = true;
-        };
-      };
       nix.enable = true;
-      ruby.enable = true;
+      tailwind.enable = true;
+      ts.enable = true;
       csharp = {
         enable = true;
-        lsp.package = pkgs.csharp-ls.overrideAttrs (old: {
-          meta =
-            old.meta
-            // {
-              badPlatforms = [];
-            };
-        });
+        lsp.servers = ["roslyn_ls"];
       };
       yaml.enable = true;
-      elixir = {
-        enable = true;
-        elixir-tools.enable = true;
-      };
     };
 
     lazy.plugins = {
