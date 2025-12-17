@@ -172,6 +172,7 @@ in {
         enable = true;
         lsp.servers = ["roslyn_ls"];
       };
+      svelte.enable = true;
       yaml.enable = true;
     };
 
