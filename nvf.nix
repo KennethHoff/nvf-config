@@ -164,8 +164,10 @@ in {
       enableTreesitter = true;
       enableExtraDiagnostics = true;
       enableDAP = true;
-
-      nix.enable = true;
+      nix = {
+        lsp.servers = ["nixd"];
+        enable = true;
+      };
       tailwind.enable = true;
       ts.enable = true;
       csharp = {
