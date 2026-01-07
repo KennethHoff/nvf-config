@@ -71,33 +71,6 @@
       desc = "Pick - Keymaps";
     }
   ];
-
-  codesnapKeymap = [
-    {
-      key = "<leader>cc";
-      mode = "v";
-      action = "<Esc><cmd>CodeSnap<cr>";
-      desc = "Copy a code snapshot to clipboard";
-    }
-    {
-      key = "<leader>cC";
-      mode = "v";
-      action = "<Esc><cmd>CodeSnapHighlight<cr>";
-      desc = "Copy a highlighted code snapshot to clipboard";
-    }
-    {
-      key = "<leader>cs";
-      mode = "v";
-      action = "<Esc><cmd>CodeSnapSave<cr>";
-      desc = "Save a code snapshot as an image";
-    }
-    {
-      key = "<leader>cS";
-      mode = "v";
-      action = "<Esc><cmd>CodeSnapSaveHighlight<cr>";
-      desc = "Save a highlighted code snapshot as an image";
-    }
-  ];
 in {
   config.vim = {
     enableLuaLoader = true;
@@ -138,7 +111,7 @@ in {
       gitlinker-nvim.enable = true;
     };
 
-    keymaps = snacksPickerKeymap ++ codesnapKeymap;
+    keymaps = snacksPickerKeymap;
 
     binds.whichKey.enable = true;
 
@@ -178,16 +151,47 @@ in {
       yaml.enable = true;
     };
 
-    lazy.plugins = {
-      "codesnap.nvim" = {
-        package = pkgs.vimPlugins.codesnap-nvim;
-        setupOpts = {
-          save_path = pkgs.lib.mkIf screenshotDirectory screenshotDirectory;
-          has_breadcrumbs = true;
-          bg_theme = "bamboo";
-          show_workspace = true;
-          has_line_number = true;
-          bg_padding = 0;
+    lazy.plugins."codesnap.nvim" = {
+      package = pkgs.vimPlugins.codesnap-nvim;
+      setupModule = "codesnap";
+      keys = [
+        {
+          key = "<leader>cc";
+          mode = "v";
+          action = "<Esc><cmd>CodeSnap<cr>";
+          desc = "Copy a code snapshot to clipboard";
+        }
+        {
+          key = "<leader>cC";
+          mode = "v";
+          action = "<Esc><cmd>CodeSnapHighlight<cr>";
+          desc = "Copy a highlighted code snapshot to clipboard";
+        }
+        {
+          key = "<leader>cs";
+          mode = "v";
+          action = "<Esc><cmd>CodeSnapSave<cr>";
+          desc = "Save a code snapshot as an image";
+        }
+        {
+          key = "<leader>cS";
+          mode = "v";
+          action = "<Esc><cmd>CodeSnapSaveHighlight<cr>";
+          desc = "Save a highlighted code snapshot as an image";
+        }
+      ];
+      setupOpts = {
+        show_line_number = false;
+
+        snapshot_config = {
+          window.margin = {
+            x = 0;
+            y = 0;
+          };
+
+          code_config = {
+            breadcrumbs.enable = true;
+          };
         };
       };
     };
