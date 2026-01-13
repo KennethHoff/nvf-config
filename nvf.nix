@@ -7,67 +7,67 @@
     {
       key = "<leader>ff"; # Files
       mode = "n";
-      action = "<cmd>lua Snacks.picker('git_files')<CR>";
+      action = "<cmd>lua Snacks.picker.git_files()<CR>";
       desc = "Pick - File";
     }
     {
       key = "<leader>fg"; # Live Grep
       mode = "n";
-      action = "<cmd>lua Snacks.picker('git_grep')<CR>";
+      action = "<cmd>lua Snacks.picker.git_grep()<CR>";
       desc = "Pick - Live Grep";
     }
     {
       key = "<leader>f*"; # Grep word under cursor
       mode = "n";
-      action = "<cmd>lua Snacks.picker('grep_word')<CR>";
+      action = "<cmd>lua Snacks.picker.grep_word()<CR>";
       desc = "Pick - Grep word under cursor";
     }
     {
       key = "<leader>f*"; # Grep current selection (visual)
       mode = "v";
-      action = "<cmd>lua Snacks.picker('grep_word')<CR>";
+      action = "<cmd>lua Snacks.picker.grep_word()<CR>";
       desc = "Pick - Grep current selection";
     }
     {
       key = "<leader>fr"; # Resume previous search
       mode = "n";
-      action = "<cmd>lua Snacks.picker('resume')<CR>";
+      action = "<cmd>lua Snacks.picker.resume()<CR>";
       desc = "Pick - Resume previous search";
     }
     {
       key = "<leader>fb"; # Buffers
       mode = "n";
-      action = "<cmd>lua Snacks.picker('buffers')<CR>";
+      action = "<cmd>lua Snacks.picker.buffers()<CR>";
       desc = "Pick - Buffer";
     }
     {
       key = "<leader>fo"; # Recent files (oldfiles)
       mode = "n";
-      action = "<cmd>lua Snacks.picker('oldfiles')<CR>";
+      action = "<cmd>lua Snacks.picker.oldfiles()<CR>";
       desc = "Pick - Recent Files";
     }
     {
       key = "<leader>fh"; # Help tags
       mode = "n";
-      action = "<cmd>lua Snacks.picker('help_tags')<CR>";
+      action = "<cmd>lua Snacks.picker.help_tags()<CR>";
       desc = "Pick - Help Tags";
     }
     {
       key = "<leader>fc"; # Commands
       mode = "n";
-      action = "<cmd>lua Snacks.picker('commands')<CR>";
+      action = "<cmd>lua Snacks.picker.commands()<CR>";
       desc = "Pick - Commands";
     }
     {
       key = "<leader>fk"; # Keymaps
       mode = "n";
-      action = "<cmd>lua Snacks.picker('keymaps')<CR>";
+      action = "<cmd>lua Snacks.picker.keymaps()<CR>";
       desc = "Pick - Keymaps";
     }
     {
       key = "<leader>fp"; # Pickers
       mode = "n";
-      action = "<cmd>lua Snacks.picker('pickers')<CR>";
+      action = "<cmd>lua Snacks.picker.pickers()<CR>";
       desc = "Pick - Keymaps";
     }
   ];
