@@ -74,6 +74,28 @@
 in {
   config.vim = {
     enableLuaLoader = true;
+
+    globals = {
+      autoread = true;
+
+      opencode_opts = {
+        provider = {
+          cmd = "opencode --port 20529";
+          enabled = "tmux";
+        };
+      };
+    };
+
+    autocmds = [
+      {
+        # Keep buffers synchronized with on-disk changes.
+        # `:checktime` detects when the file changed outside Neovim and triggers the normal reload/prompt behavior.
+        # This matters when switching git branches, running formatters, or when tools like `opencode` edit files.
+        event = ["FocusGained" "BufEnter" "CursorHold" "CursorHoldI"];
+        pattern = ["*"];
+        command = "checktime";
+      }
+    ];
     theme = {
       enable = true;
       name = "catppuccin";
@@ -90,7 +112,13 @@ in {
         };
       };
       smart-splits.enable = true;
-      snacks-nvim.enable = true;
+      snacks-nvim = {
+        enable = true;
+        setupOpts = {
+          input = {};
+          picker = {};
+        };
+      };
     };
 
     mini = {
@@ -151,46 +179,115 @@ in {
       yaml.enable = true;
     };
 
-    lazy.plugins."codesnap.nvim" = {
-      package = pkgs.vimPlugins.codesnap-nvim;
-      setupModule = "codesnap";
-      keys = [
-        {
-          key = "<leader>cc";
-          mode = "v";
-          action = "<Esc><cmd>CodeSnap<cr>";
-          desc = "Copy a code snapshot to clipboard";
-        }
-        {
-          key = "<leader>cC";
-          mode = "v";
-          action = "<Esc><cmd>CodeSnapHighlight<cr>";
-          desc = "Copy a highlighted code snapshot to clipboard";
-        }
-        {
-          key = "<leader>cs";
-          mode = "v";
-          action = "<Esc><cmd>CodeSnapSave<cr>";
-          desc = "Save a code snapshot as an image";
-        }
-        {
-          key = "<leader>cS";
-          mode = "v";
-          action = "<Esc><cmd>CodeSnapSaveHighlight<cr>";
-          desc = "Save a highlighted code snapshot as an image";
-        }
-      ];
-      setupOpts = {
-        show_line_number = false;
+    lazy.plugins = {
+      "opencode.nvim" = {
+        package = pkgs.vimPlugins.opencode-nvim;
 
-        snapshot_config = {
-          window.margin = {
-            x = 0;
-            y = 0;
-          };
+        keys = [
+          {
+            key = "<C-a>";
+            mode = ["n" "x"];
+            action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<CR>";
+            desc = "Ask opencode…";
+          }
+          {
+            key = "<C-x>";
+            mode = ["n" "x"];
+            action = "<cmd>lua require('opencode').select()<CR>";
+            desc = "Execute opencode action…";
+          }
+          {
+            key = "<C-.>";
+            mode = ["n" "t"];
+            action = "<cmd>lua require('opencode').toggle()<CR>";
+            desc = "Toggle opencode";
+          }
 
-          code_config = {
-            breadcrumbs.enable = true;
+          {
+            key = "go";
+            mode = ["n" "x"];
+            action = "<cmd>lua return require('opencode').operator('@this ')<CR>";
+            desc = "Add range to opencode";
+            expr = true;
+          }
+          {
+            key = "goo";
+            mode = "n";
+            action = "<cmd>lua return require('opencode').operator('@this ') .. '_'<CR>";
+            desc = "Add line to opencode";
+            expr = true;
+          }
+
+          {
+            key = "<S-C-u>";
+            mode = "n";
+            action = "<cmd>lua require('opencode').command('session.half.page.up')<CR>";
+            desc = "Scroll opencode up";
+          }
+          {
+            key = "<S-C-d>";
+            mode = "n";
+            action = "<cmd>lua require('opencode').command('session.half.page.down')<CR>";
+            desc = "Scroll opencode down";
+          }
+
+          {
+            key = "+";
+            mode = "n";
+            action = "<C-a>";
+            desc = "Increment under cursor";
+            noremap = true;
+          }
+          {
+            key = "-";
+            mode = "n";
+            action = "<C-x>";
+            desc = "Decrement under cursor";
+            noremap = true;
+          }
+        ];
+      };
+      "codesnap.nvim" = {
+        package = pkgs.vimPlugins.codesnap-nvim;
+        setupModule = "codesnap";
+        keys = [
+          {
+            key = "<leader>cc";
+            mode = "v";
+            action = "<Esc><cmd>CodeSnap<cr>";
+            desc = "Copy a code snapshot to clipboard";
+          }
+          {
+            key = "<leader>cC";
+            mode = "v";
+            action = "<Esc><cmd>CodeSnapHighlight<cr>";
+            desc = "Copy a highlighted code snapshot to clipboard";
+          }
+          {
+            key = "<leader>cs";
+            mode = "v";
+            action = "<Esc><cmd>CodeSnapSave<cr>";
+            desc = "Save a code snapshot as an image";
+          }
+          {
+            key = "<leader>cS";
+            mode = "v";
+            action = "<Esc><cmd>CodeSnapSaveHighlight<cr>";
+            desc = "Save a highlighted code snapshot as an image";
+          }
+        ];
+        setupOpts = {
+          show_line_number = false;
+
+          snapshot_config = {
+            window.margin = {
+              x = 0;
+              y = 0;
+            };
+
+            code_config = {
+              breadcrumbs.enable = true;
+            };
           };
         };
       };
