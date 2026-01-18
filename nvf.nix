@@ -185,65 +185,48 @@ in {
 
         keys = [
           {
-            key = "<C-a>";
+            key = "<leader>oa";
             mode = ["n" "x"];
             action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<CR>";
             desc = "Ask opencode…";
           }
           {
-            key = "<C-x>";
+            key = "<leader>ox";
             mode = ["n" "x"];
             action = "<cmd>lua require('opencode').select()<CR>";
             desc = "Execute opencode action…";
           }
           {
-            key = "<C-.>";
+            key = "<leader>ot";
             mode = ["n" "t"];
             action = "<cmd>lua require('opencode').toggle()<CR>";
             desc = "Toggle opencode";
           }
 
           {
-            key = "go";
+            key = "<leader>or";
             mode = ["n" "x"];
             action = "<cmd>lua return require('opencode').operator('@this ')<CR>";
             desc = "Add range to opencode";
-            expr = true;
           }
           {
-            key = "goo";
+            key = "<leader>ol";
             mode = "n";
-            action = "<cmd>lua return require('opencode').operator('@this ') .. '_'<CR>";
+            action = "<cmd>lua return require('opencode').operator('@this ') .. '_' <CR>";
             desc = "Add line to opencode";
-            expr = true;
           }
 
           {
-            key = "<S-C-u>";
+            key = "<leader>ou";
             mode = "n";
             action = "<cmd>lua require('opencode').command('session.half.page.up')<CR>";
             desc = "Scroll opencode up";
           }
           {
-            key = "<S-C-d>";
+            key = "<leader>od";
             mode = "n";
             action = "<cmd>lua require('opencode').command('session.half.page.down')<CR>";
             desc = "Scroll opencode down";
-          }
-
-          {
-            key = "+";
-            mode = "n";
-            action = "<C-a>";
-            desc = "Increment under cursor";
-            noremap = true;
-          }
-          {
-            key = "-";
-            mode = "n";
-            action = "<C-x>";
-            desc = "Decrement under cursor";
-            noremap = true;
           }
         ];
       };
