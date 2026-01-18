@@ -11,81 +11,92 @@
     };
   };
 
-  outputs = {
-    flake-utils,
-    nvf,
-    nixpkgs,
-    ...
-  }: let
-    mkConfig = {
-      pkgs,
-      screenshotDirectory,
+  outputs =
+    {
+      flake-utils,
+      nvf,
+      nixpkgs,
+      ...
     }:
-      (nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        modules = [
-          (import ./nvf.nix {
-            inherit pkgs;
-            screenshotDirectory = screenshotDirectory;
-          })
-        ];
-      }).neovim;
-    # Define the module outside eachDefaultSystem so it's available at the top level
-    nvf-config-module = {
-      pkgs,
-      lib,
-      config,
-      ...
-    }: {
-      options.programs.nvf-config = {
-        enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
-        screenshotDirectory = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          description = "Where to output screenshots";
-          default = null;
+    let
+      mkConfig =
+        {
+          pkgs,
+          screenshotDirectory,
+        }:
+        (nvf.lib.neovimConfiguration {
+          inherit pkgs;
+          modules = [
+            (import ./nvf.nix {
+              inherit pkgs;
+              screenshotDirectory = screenshotDirectory;
+            })
+          ];
+        }).neovim;
+      # Define the module outside eachDefaultSystem so it's available at the top level
+      nvf-config-module =
+        {
+          pkgs,
+          lib,
+          config,
+          ...
+        }:
+        {
+          options.programs.nvf-config = {
+            enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+            screenshotDirectory = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = "Where to output screenshots";
+              default = null;
+            };
+          };
+
+          config = lib.mkIf config.programs.nvf-config.enable {
+            environment.systemPackages = [
+              (mkConfig {
+                inherit pkgs;
+                inherit (config.programs.nvf-config) screenshotDirectory;
+              })
+            ];
+          };
         };
-      };
 
-      config = lib.mkIf config.programs.nvf-config.enable {
-        environment.systemPackages = [
-          (mkConfig {
-            inherit pkgs;
-            inherit (config.programs.nvf-config) screenshotDirectory;
-          })
-        ];
-      };
-    };
+      # Home Manager module
+      hm-nvf-config-module =
+        {
+          pkgs,
+          lib,
+          config,
+          ...
+        }:
+        {
+          options.programs.nvf-config = {
+            enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
+            screenshotDirectory = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = "Where to output screenshots";
+              default = null;
+            };
+          };
 
-    # Home Manager module
-    hm-nvf-config-module = {
-      pkgs,
-      lib,
-      config,
-      ...
-    }: {
-      options.programs.nvf-config = {
-        enable = lib.mkEnableOption "Custom Neovim configuration via nvf";
-        screenshotDirectory = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          description = "Where to output screenshots";
-          default = null;
+          config = lib.mkIf config.programs.nvf-config.enable {
+            home.packages = [
+              (mkConfig {
+                inherit pkgs;
+                inherit (config.programs.nvf-config) screenshotDirectory;
+              })
+            ];
+          };
         };
-      };
-
-      config = lib.mkIf config.programs.nvf-config.enable {
-        home.packages = [
-          (mkConfig {
-            inherit pkgs;
-            inherit (config.programs.nvf-config) screenshotDirectory;
-          })
-        ];
-      };
-    };
-  in
+    in
     (flake-utils.lib.eachDefaultSystem (
-      system: let
+      system:
+      let
         pkgs = nixpkgs.legacyPackages.${system};
-      in {
+      in
+      {
+        formatter = pkgs.nixfmt;
+
         packages.default = mkConfig {
           inherit pkgs;
           screenshotDirectory = null;
