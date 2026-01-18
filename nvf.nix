@@ -80,7 +80,7 @@ in {
 
       opencode_opts = {
         provider = {
-          cmd = "opencode --port 20529";
+          cmd = "opencode --port";
           enabled = "tmux";
         };
       };
