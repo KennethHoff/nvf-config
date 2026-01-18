@@ -177,6 +177,7 @@ in {
       };
       svelte.enable = true;
       yaml.enable = true;
+      python.enable = true;
     };
 
     lazy.plugins = {
