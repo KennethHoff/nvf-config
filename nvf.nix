@@ -158,6 +158,7 @@ in {
       inlayHints.enable = true;
       trouble.enable = true;
       otter-nvim.enable = true;
+      harper-ls.enable = true;
     };
 
     languages = {
