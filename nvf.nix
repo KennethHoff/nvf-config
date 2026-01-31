@@ -179,6 +179,7 @@ in {
       svelte.enable = true;
       yaml.enable = true;
       python.enable = true;
+      rust.enable = true;
     };
 
     lazy.plugins = {
