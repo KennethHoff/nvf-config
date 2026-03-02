@@ -1,8 +1,4 @@
-{
-  pkgs,
-  screenshotDirectory ? null,
-  ...
-}: let
+{pkgs, ...}: let
   snacksPickerKeymap = [
     {
       key = "<leader>ff"; # Files
@@ -69,6 +65,14 @@
       mode = "n";
       action = "<cmd>lua Snacks.picker.pickers()<CR>";
       desc = "Pick - Keymaps";
+    }
+  ];
+  gitlinkerKeymap = [
+    {
+      key = "<leader>cl";
+      mode = "";
+      action = "<cmd>lua GitLink<CR>";
+      desc = "Link to file in Git remote";
     }
   ];
 in {
@@ -139,7 +143,7 @@ in {
       gitlinker-nvim.enable = true;
     };
 
-    keymaps = snacksPickerKeymap;
+    keymaps = snacksPickerKeymap ++ gitlinkerKeymap;
 
     binds.whichKey.enable = true;
 
